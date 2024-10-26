@@ -1,0 +1,73 @@
+---
+title: "example-1-Nicola-Rennie"
+format: html
+editor: visual
+---
+
+## [Example HomePage](https://nrennie.rbind.io/r-pharma-2024-parameterized-reports/)
+
+## [Slides](https://nrennie.rbind.io/r-pharma-2024-parameterized-reports/slides.html)
+
+```{r}
+library(tidyverse)
+library(gapminder)
+```
+
+### Start with the variables
+
+Create variables that define the data you’re plotting:
+
+```{r}
+month <- "Apr"
+year <- 2024
+```
+
+Variables don’t have to be data-related, they can also be:
+
+-   colours
+
+-   fonts
+
+-   output types
+
+-   .....
+
+## …then build functions!
+
+```{r}
+plot_function <- function(month, year) {
+  # plot code goes here!
+}
+```
+
+with or without default…
+
+```{r}
+plot_function <- function(month, year, colour = "blue") {
+  # plot code goes here!
+}
+```
+
+## Live Demo!
+
+-   Replacing hard-coded values with variables
+
+-   Transforming code into a function
+
+-   Using `glue()` for parameterized plot text
+
+## Exercise 1
+
+1.  Create a variable to define a year in the `gapminder` data that you want to plot.
+
+2.  Edit the code in the `gapminder_year.R` file to use this new year variable.
+
+3.  Turn your code into a function that takes the data and year variable as arguments (and check it works!)
+
+4.  **Bonus**: Add another argument to your function that allows a user to define the bar colour.
+
+5.  **Bonus**: How could you improve your function?
+
+```{r}
+
+```

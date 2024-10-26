@@ -1,0 +1,47 @@
+---
+format:
+  html:
+    embed-resources: true
+---
+
+Render one report using the quarto R package:
+
+```{r}
+library(quarto)
+quarto_render(
+  input = "example-3.qmd",
+  execute_params = list(
+    continent = "Europe"
+  )
+)
+```
+
+Use the purrr package to create multiple reports at the same time:
+
+```{r}
+library(purrr)
+walk(
+  .x = unique(gapminder$continent),
+  .f = ~quarto_render(
+    input = "example-3.qmd",
+    execute_params = list(
+      choose_continent = .x
+    )
+  )
+)
+```
+Why is there only one report? We need to give each report a different name, to stop it being overwritten. Let’s use glue() again, this time for the file names.
+
+```{r}
+walk(
+  .x = unique(gapminder$continent),
+  .f = ~quarto_render(
+    input = "example-3.qmd",
+    output_file = glue("report_{.x}.html"),
+    execute_params = list(
+      choose_continent = .x
+    )
+  )
+)
+```
+To ensure the images aren’t overwritten as well, you may need to add embed-resources: true to your Quarto document YAML:

@@ -1,0 +1,55 @@
+---
+title: "Gapminder Report on Life Expectancy in Asia"
+execute: 
+  echo: false
+params:
+  choose_continent: "Europe"
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r}
+#| label: load-pkgs
+#| message: false
+library(gapminder)
+library(dplyr)
+library(ggplot2)
+library(glue)
+```
+
+This is a report using the [Gapminder](https://www.gapminder.org/data/) data. @fig-life-exp shows a box plot of how the life expectancy in Asia has changed over time.
+
+```{r}
+#| label: fig-life-exp
+#| fig-cap: "Life expectancy in Asia"
+continent_plot <- function(choose_continent, data = gapminder) {
+  # Filter data
+  gapminder_continent <- data |>
+    filter(continent == choose_continent)
+  # Plot
+  g <- ggplot(data = gapminder_continent) +
+    geom_boxplot(
+      mapping = aes(x = factor(year), y = lifeExp)
+    ) +
+    labs(
+      x = NULL, y = "Life Expectancy (years)",
+      title = glue("Life Expectancy in {params$choose_continent}")
+    )
+  return(g)
+}
+continent_plot(params$choose_continent)
+```
+
+Adding a table of data:
+
+
+```{r}
+#| label: tbl-stats
+#| tbl-cap: "Statistics in Asia"
+library(tinytable)
+gapminder |> 
+  filter(continent == params$choose_continent) |> 
+  group_by(year) |> 
+  summarise(across(c(lifeExp, pop, gdpPercap), mean)) |> 
+  tt()
+```
